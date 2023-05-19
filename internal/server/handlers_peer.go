@@ -2,6 +2,7 @@ package server
 
 import (
 	"bytes"
+	"github.com/tatsushid/go-fastping"
 	"net"
 	"net/http"
 	"net/url"
@@ -14,7 +15,6 @@ import (
 	"github.com/h44z/wg-portal/internal/wireguard"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	"github.com/tatsushid/go-fastping"
 	csrf "github.com/utrack/gin-csrf"
 )
 
@@ -111,6 +111,7 @@ func (s *Server) GetAdminCreatePeer(c *gin.Context) {
 		"DeviceNames":  s.GetDeviceNames(),
 		"AdminEmail":   s.config.Core.AdminUser,
 		"Csrf":         csrf.GetToken(c),
+		"Users":        s.users.GetUsers(),
 	})
 }
 
