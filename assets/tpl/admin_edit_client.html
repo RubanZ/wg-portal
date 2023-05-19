@@ -72,7 +72,12 @@
                     <select class="selectpicker form-control" data-show-subtext="true" data-live-search="true" data-container="body" data-width="100%" name="mail" id="server_Email" required>
                         <option data-subtext="" value="" disabled>Необходимо выбрать</option>
                         {{range $i, $u :=.Users}}
-                        <option data-subtext="{{$u.Email}}" value="{{$u.Email}}">{{$u.Lastname}} {{$u.Firstname}}</option>
+                            <option
+                                    data-subtext="{{$u.Email}}"
+                                    value="{{$u.Email}}"
+                                    {{if eq $u.Email $.Peer.Email }}selected="selected"{{end}}
+                            >{{$u.Lastname}} {{$u.Firstname}}
+                            </option>
                         {{end}}
                     </select>
                 </div>

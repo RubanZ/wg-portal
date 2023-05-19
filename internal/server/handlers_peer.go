@@ -43,6 +43,7 @@ func (s *Server) GetAdminEditPeer(c *gin.Context) {
 		"DeviceNames":  s.GetDeviceNames(),
 		"AdminEmail":   s.config.Core.AdminUser,
 		"Csrf":         csrf.GetToken(c),
+		"Users":        s.users.GetUsers(),
 	})
 }
 
