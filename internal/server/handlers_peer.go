@@ -431,7 +431,6 @@ func (s *Server) PostUserCreatePeer(c *gin.Context) {
 	}
 
 	formPeer.Email = currentSession.Email
-	formPeer.Identifier = currentSession.Email
 	formPeer.DeviceType = wireguard.DeviceTypeServer
 
 	if err := c.ShouldBind(&formPeer); err != nil {
@@ -490,6 +489,28 @@ func (s *Server) GetUserEditPeer(c *gin.Context) {
 		"AdminEmail":   s.config.Core.AdminUser,
 		"Csrf":         csrf.GetToken(c),
 	})
+}
+
+func (s *Server) GetUserDeletePeer(c *gin.Context) {
+	peer := s.peers.GetPeerByKey(c.Query("pkey"))
+
+	currentSession, err := s.setFormInSession(c, peer)
+	if err != nil {
+		s.GetHandleError(c, http.StatusInternalServerError, "Session error", err.Error())
+		return
+	}
+
+	if peer.Email != currentSession.Email {
+		s.GetHandleError(c, http.StatusUnauthorized, "No permissions", "You don't have permissions to view this resource!")
+		return
+	}
+
+	if err := s.DeletePeer(peer); err != nil {
+		s.GetHandleError(c, http.StatusInternalServerError, "Deletion error", err.Error())
+		return
+	}
+	SetFlashMessage(c, "peer deleted successfully", "success")
+	c.Redirect(http.StatusSeeOther, "/user/profile")
 }
 
 func (s *Server) PostUserEditPeer(c *gin.Context) {

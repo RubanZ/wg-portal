@@ -80,6 +80,7 @@ func SetupRoutes(s *Server) {
 	if s.config.WG.UserManagePeers {
 		user.GET("/peer/create", s.GetUserCreatePeer)
 		user.POST("/peer/create", s.PostUserCreatePeer)
+		user.GET("/peer/delete", s.GetUserDeletePeer)
 		user.GET("/peer/edit", s.GetUserEditPeer)
 		user.POST("/peer/edit", s.PostUserEditPeer)
 	}

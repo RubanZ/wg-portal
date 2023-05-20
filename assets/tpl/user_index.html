@@ -21,7 +21,7 @@
             </div>
             <div class="col-sm-4 col-12 text-right">
                 {{if eq $.UserManagePeers true}}
-                <a href="/user/peer/create" title="Add a peer" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i><i class="fa fa-fw fa-user"></i></a>
+                <a href="/user/peer/create" title="Add a peer" class="btn btn-primary{{ $length := len $.Peers }} {{ if ge $length 2 }}disabled{{end}}"><i class="fa fa-fw fa-plus"></i><i class="fa fa-fw fa-user"></i></a>
                 {{end}}
             </div>
         </div>
